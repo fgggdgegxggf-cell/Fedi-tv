@@ -17,16 +17,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Unzip and Find Project
+      - name: Extract ZIP File
         run: |
-          echo "جاري فك ضغط الملف المضغوط..."
-          unzip -q "*.zip" -d extracted_files || true
-          ls -la extracted_files
-          cd extracted_files/FEDI* 2>/dev/null || cd extracted_files/* 2>/dev/null || cd extracted_files
+          echo "جاري فك ضغط ملف التطبيق..."
+          unzip -q FEDI_TV_PRO_Android_*.zip -d extracted_project
+          ls -la extracted_project
 
       - name: Build APK with Gradle
         run: |
-          cd extracted_files/*/ 2>/dev/null || cd extracted_files/ 2>/dev/null || true
+          cd extracted_project
+          # البحث عن مجلد المشروع الداخلي وبناء الملف
+          cd $(ls -d */|head -n 1)
           if [ -f "gradlew" ]; then
             chmod +x gradlew
             ./gradlew assembleDebug
