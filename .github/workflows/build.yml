@@ -17,17 +17,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Unzip Source Code
-        run: |
-          # فك ضغط الملف المضغوط اللي رفعناه تلقائياً
-          unzip FEDI_TV_PRO_Android_source.zip -d extracted_source || echo "الملف مفكوك مسبقاً أو غير موجود"
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew || true
 
       - name: Build APK with Gradle
         run: |
-          # الدخول للمجلد المستخرج وبدء البناء
-          cd extracted_source/* || cd extracted_source
           if [ -f "gradlew" ]; then
-            chmod +x gradlew
             ./gradlew assembleDebug
           else
             gradle assembleDebug
